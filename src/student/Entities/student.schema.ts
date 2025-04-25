@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose"
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document } from "mongoose"
+import { timestamp } from "rxjs"
 
 export type StudentDocument = Student & Document // define the type of the document
 @Schema()
@@ -20,8 +21,8 @@ export class Student {
     @Prop({required: true})
     class: string
 
-    @Prop({required: true})
-    createdAt: Date
+    // @Prop({required: true})
+    // createdAt: Date
 
     @Prop({type:[ {type: mongoose.Schema.Types.ObjectId, ref: "Teacher"}]})
     teacherIds: mongoose.Schema.Types.ObjectId[]
