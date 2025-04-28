@@ -14,3 +14,13 @@ export class CreateTeacherDto{
     subject: string;
 
 }
+
+export class UpdateTeacherDto{
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsString()
+    @IsNotEmpty()
+    subject: string
+}

@@ -16,9 +16,6 @@ export class Teacher {
     @Prop({ required: true })
     subject: string;
 
-    @Prop({ required: true })
-    createdAt: Date;
-
     @Prop({type:[{type: mongoose.Schema.Types.ObjectId, ref: "Student"}]})
     studentIds: mongoose.Schema.Types.ObjectId[]; // array of student ids
 
@@ -27,4 +24,4 @@ export class Teacher {
 
 }
 
-export const TeacherSchema = SchemaFactory.createForClass(Teacher); // create the schema for the teacher model
+export const TeacherSchema = SchemaFactory.createForClass(Teacher);

@@ -7,7 +7,17 @@ export class CreateCourseDto{
 
     @IsNotEmpty()
     @IsString()
-    CourseCode: string;
+    courseCode: string;
+
+    @IsNotEmpty()
+    @IsString()
+    courseDescription: string;
+}
+
+export class UpdateCourseDto{
+    @IsNotEmpty()
+    @IsString()
+    courseName: string;
 
     @IsNotEmpty()
     @IsString()
