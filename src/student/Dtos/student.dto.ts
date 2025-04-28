@@ -20,3 +20,19 @@ export class CreateStudentDto{
     class: string;
     
 }
+
+
+export class UpdateStudentDto{
+    @IsNotEmpty()
+    @IsString()
+    name: string;
+
+
+    @IsNotEmpty()
+    @IsNumber()
+    age: number;
+
+    @IsNotEmpty()
+    @IsString()
+    gender: string;
+}
