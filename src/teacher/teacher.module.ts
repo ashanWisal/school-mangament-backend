@@ -7,6 +7,5 @@ import { TeacherService } from './teacher.service';
   imports:[TeacherModel],
   controllers: [TeacherController],
   providers:[TeacherService],
-  exports:[TeacherService]
 })
 export class TeacherModule {}
