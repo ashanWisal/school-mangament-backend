@@ -24,11 +24,11 @@ export class Student {
     // @Prop({required: true})
     // createdAt: Date
 
-    @Prop({type:[ {type: mongoose.Schema.Types.ObjectId, ref: "Teacher"}]})
-    teacherIds: mongoose.Schema.Types.ObjectId[]
+    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }] })
+teacherIds: mongoose.Schema.Types.ObjectId[];
 
     @Prop({type:[{type:mongoose.Schema.Types.ObjectId, ref: "Courses"}]})
-    courseIds: mongoose.Schema.Types.ObjectId[] // array of course ids
+    courseIds: mongoose.Schema.Types.ObjectId[]; // array of course ids
 
 }
 

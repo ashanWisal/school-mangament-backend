@@ -18,7 +18,6 @@ export class CoursesController {
 
     @Get(':id')
     async findOne(@Param('id') id: string){
-        console.log("*********************id:", id)
         return await this.coursesService.findOneCourse(id)
     }
 
