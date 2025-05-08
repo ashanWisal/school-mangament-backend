@@ -15,20 +15,19 @@ export class Student {
     @Prop({required: true, unique: true})
     email: string
 
+    // @Prop({required: true, unique: true})
+    // password: string
+
     @Prop({required: true})
     gender: string
 
     @Prop({required: true})
     class: string
 
-    // @Prop({required: true})
-    // createdAt: Date
+    @Prop({type:mongoose.Schema.Types.ObjectId, ref:"User"})
+    user:mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }] })
-teacherIds: mongoose.Schema.Types.ObjectId[];
-
-    @Prop({type:[{type:mongoose.Schema.Types.ObjectId, ref: "Courses"}]})
-    courseIds: mongoose.Schema.Types.ObjectId[]; // array of course ids
+    
 
 }
 

@@ -35,9 +35,9 @@ export class StudentController {
         return result
     }
 
-    @Patch(':studentId/teacher')
-        async assignTeacher(@Param('studentId') studentId: string, @Query('teacherId') teacherId: string){
-            return this.studentService.assignTeacherToStudent(studentId, teacherId)
-        }
+    // @Patch(':studentId/teacher')
+    //     async assignTeacher(@Param('studentId') studentId: string, @Query('teacherId') teacherId: string){
+    //         return this.studentService.assignTeacherToStudent(studentId, teacherId)
+    //     }
 
 }
