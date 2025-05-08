@@ -11,6 +11,10 @@ export class CreateTeacherDto{
 
     @IsString()
     @IsNotEmpty()
+    password: string;
+
+    @IsString()
+    @IsNotEmpty()
     subject: string;
 
 }
