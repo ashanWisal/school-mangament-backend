@@ -13,6 +13,7 @@ import { StudentTeacherService } from './student-teacher/student-teacher.service
 import { StudentTeacherModule } from './student-teacher/student-teacher.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ClassModule } from './class/class.module';
 
 
 @Module({
@@ -20,7 +21,8 @@ import { ConfigModule } from '@nestjs/config';
     StudentModule, TeacherModule, CoursesModule,
     MongooseModule.forRoot('mongodb+srv://ashanwisal08:root@cluster0.tvzjfz0.mongodb.net/school'),
     StudentTeacherModule,
-    AuthModule
+    AuthModule,
+    ClassModule
   ],
   controllers: [AppController, StudentController, CoursesController, StudentTeacherController],
   providers: [AppService, TeacherService, StudentTeacherService],
