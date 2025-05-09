@@ -53,10 +53,14 @@ export class AuthService {
             })
             await teacher.save()
         }
-        const token = this.jwtService.sign({ id: user._id })
+
+        const payload = {id:user._id, role:user.role}
+        const expiresIn = user.role==='teacher'?'6h':'5h';
+
+        const token = this.jwtService.sign(payload, {expiresIn})
         return { token }
     }
-    
+
 
     async loginUser(logingDto: LoginDto): Promise<{ token: string }> {
         const { email, password } = logingDto
@@ -72,8 +76,11 @@ export class AuthService {
             throw new UnauthorizedException("invalid password")
         }
 
+        let expiresIn = user.role==='teacher'?'6h':'5h';
 
-        const token = this.jwtService.sign({ id: user._id })
+        const payload= {id:user._id, role:user.role}
+
+        const token = this.jwtService.sign(payload, { expiresIn })
         return { token }
     }
 }
