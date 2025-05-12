@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, Types } from 'mongoose';
 import { CreateStudentDto, UpdateStudentDto } from './Dtos/student.dto';
@@ -9,53 +9,92 @@ import { Teacher } from 'src/teacher/Entities/teacher.schema';
 export class StudentService {
   constructor(
     @InjectModel(Student.name) private studentModel: Model<Student>,
-    @InjectModel(Teacher.name) private teacherModel: Model<Teacher>) {}
+    @InjectModel(Teacher.name) private teacherModel: Model<Teacher>) { }
 
   async createStudent(student: CreateStudentDto) {
-    const newStudent = await  new this.studentModel(student);
-    return newStudent.save();
-  }
-
-  async getAllStudent(){
-    return  await this.studentModel.find()
-  }
-
-  async getStudentById(id: string){
-    const objectId = new Types.ObjectId(id);
-    const student = await this.studentModel.findById(objectId)
-
-    return student;
-  }
-
-  async updateStudent(id: string, updatestd: UpdateStudentDto){
-    const objectId = new Types.ObjectId(id)
-    const updatedStudent =await this.studentModel.findByIdAndUpdate(objectId, updatestd, {new: true})
-    return updatedStudent
-  }
-
-  async deleteStudent(id:string){
-    const objectId = new Types.ObjectId(id)
-    return await this.studentModel.findByIdAndDelete(objectId)
-  }
-
-   async assignTeacherToStudent(studentId: string, teacherId: string){
-    const teacher = await this.teacherModel.findById(teacherId);
-    if (!teacher) {
-      throw new Error('Teacher Not Found');
+    try {
+      const newStudent = await new this.studentModel(student);
+      return newStudent.save();
+    } catch (error) {
+      throw new BadRequestException(error?.message || "Invalid student Data", error?.status || HttpStatus.INTERNAL_SERVER_ERROR)
     }
-    const student = await this.studentModel.findByIdAndUpdate(
-      studentId,
-      { $addToSet: { teacherIds: teacherId } },
-      { new: true }
-    );
-    
-    if (!student) {
-      throw new Error('Student Not Found');
+  }
+
+  async getAllStudent() {
+    try {
+      return await this.studentModel.find()
+
+    } catch (error) {
+      throw new HttpException(error?.message || "Students not found", error?.status || HttpStatus.INTERNAL_SERVER_ERROR)
     }
-    
-    return student;
+  }
+
+  async getStudentById(id: string) {
+    try {
+
+      const objectId = new Types.ObjectId(id);
+      const student = await this.studentModel.findById(objectId)
+      if (!student) {
+        throw new NotFoundException(`student with id: ${objectId} not found`)
+      }
+
+      return student;
+    } catch (error) {
+      throw new HttpException(error?.message || "Something went wrong", error?.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async updateStudent(id: string, updatestd: UpdateStudentDto) {
+    try {
+      const objectId = new Types.ObjectId(id)
+      const updatedStudent = await this.studentModel.findByIdAndUpdate(objectId, updatestd, { new: true })
+      if (!updatedStudent) {
+        throw new NotFoundException(`student not found at id: ${objectId}`)
+      }
+      return updatedStudent
+
+    } catch (error) {
+      throw new HttpException(error?.message || "Went something wrong", error?.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async deleteStudent(id: string) {
+    try {
+      const objectId = new Types.ObjectId(id)
+      const deletedStudent = await this.studentModel.findByIdAndDelete(objectId)
+      if (!deletedStudent) {
+        throw new NotFoundException(`No studnet at id:${objectId}`)
+      }
+      return deletedStudent;
+
+    } catch (error) {
+      throw new HttpException(error?.message || "Went something wrong", error?.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  async assignTeacherToStudent(studentId: string, teacherId: string) {
+    try {
+      const teacher = await this.teacherModel.findById(teacherId);
+      if (!teacher) {
+        throw new NotFoundException('Teacher Not Found');
+      }
+      const student = await this.studentModel.findByIdAndUpdate(
+        studentId,
+        { $addToSet: { teacherIds: teacherId } },
+        { new: true }
+      );
+
+      if (!student) {
+        throw new NotFoundException('Student Not Found');
+      }
+
+      return student;
+
+    } catch (error) {
+      throw new HttpException(error?.message || "Went something wron", error?.status || HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
 
-  
+
 }
