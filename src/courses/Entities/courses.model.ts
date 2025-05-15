@@ -20,4 +20,4 @@ import { Courses, CoursesSchema } from "./courses.schema";
     exports: [MongooseModule]
 })
 
-export class CourseModel{} // export the module for the courses model
+export class CourseModel{} 

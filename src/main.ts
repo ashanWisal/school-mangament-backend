@@ -1,9 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { JwtService } from '@nestjs/jwt';
+import { GuardGuard } from './guard/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const jwtService = app.get(JwtService)
+  app.useGlobalGuards(new GuardGuard(jwtService))
 
    const config = new DocumentBuilder()
     .setTitle('School Management API')
