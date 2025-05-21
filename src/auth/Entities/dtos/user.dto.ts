@@ -1,43 +1,43 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 
-export class SignUpDto {
+export enum RoleEnum {
+    STUDENT = 'student',
+    TEACHER = 'teacher'
+  }
+  
+  export class SignUpDto {
     @IsNotEmpty()
     @IsString()
-    name
-
+    name: string;
+  
     @IsNotEmpty()
     @IsString()
-    email
-
-
+    email: string;
+  
     @IsNotEmpty()
     @IsString()
-    password
-
-    @IsEnum(['student', 'teacher'])
-    role:'student' | 'teacher'
-    
-    @IsNotEmpty()
+    password: string;
+  
+    @IsEnum(RoleEnum, { message: 'Role must be student or teacher' })
+    role: RoleEnum;
+  
+    @IsOptional()
     @IsNumber()
     age?: number;
-
-
-    @IsNotEmpty()
+  
+    @IsOptional()
     @IsString()
     gender?: string;
-
-
-    @IsNotEmpty()
+  
+    @IsOptional()
     @IsString()
-    class?: string;
-
-
+    className?: string;
+  
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     subject?: string;
-
-}
+  }
 
 
 export class LoginDto {
