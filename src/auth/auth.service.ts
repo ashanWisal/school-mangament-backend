@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<{ accessToken: string; refreshToken: string }> {
-    const { name, email, password, role, class: className, age, gender, subject } = signUpDto;
+    const { name, email, password, role, className, age, gender, subject } = signUpDto;
 
     const existingUser = await this.userModel.findOne({ email });
     if (existingUser) {
@@ -40,7 +40,7 @@ export class AuthService {
         user: user._id,
         name: user.name,
         email: user.email,
-        class: className,
+       className,
         age,
         gender,
       });
@@ -77,7 +77,16 @@ export class AuthService {
     const expiresIn = user.role === 'teacher' ? '6h' : '5h';
     const payload = { id: user._id, role: user.role };
 
-    return this.generateToken(payload, expiresIn);
+    const token= this.generateToken(payload, expiresIn);
+    return{
+      ...token,
+      user:{
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      }
+    }
   }
 
   async generateToken(payload: any, expiresIn: string): Promise<{ accessToken: string; refreshToken: string }> {

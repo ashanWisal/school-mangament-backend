@@ -22,7 +22,7 @@ export class Student {
     gender: string
 
     @Prop({required: true})
-    class: string
+    className: string
 
     @Prop({type:mongoose.Schema.Types.ObjectId, ref:"User"})
     user:mongoose.Schema.Types.ObjectId;

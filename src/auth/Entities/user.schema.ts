@@ -19,8 +19,8 @@ export class User {
   @Prop()
   password: string
   
-  @Prop({required:true, enum:['student', 'teacher']})
-  role:'student' | 'teacher'
+  @Prop({required:true, enum:['student', 'teacher', 'admin']})
+  role:'student' | 'teacher' | 'admin'
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
